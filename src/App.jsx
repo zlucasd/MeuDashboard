@@ -7,6 +7,7 @@ import { SubjectsSection } from './components/SubjectsSection'
 import { CronogramaSection } from './components/CronogramaSection'
 import { RotinaSemanal } from './components/RotinaSemanal'
 import { NotasSection } from './components/NotasSection'
+import { BottomNav } from './components/BottomNav'
 import { defaultExams, defaultTasks, defaultSubjects } from './data/defaultData'
 
 const TABS = [
@@ -58,6 +59,8 @@ export default function App() {
         {tab === 'subjects' && <SubjectsSection subjects={subjects} setSubjects={setSubjects} />}
         {tab === 'notas' && <NotasSection subjects={subjects} />}
       </main>
+
+      <BottomNav activeTab={tab} onTabChange={setTab} />
     </div>
   )
 }
