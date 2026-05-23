@@ -1,13 +1,10 @@
-export function Header({ exams, tasks, subjects, children }) {
+export function Header({ exams, tasks, subjects, theme, onToggleTheme, children }) {
   const now = new Date()
   const hour = now.getHours()
   const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite'
 
   const dateStr = now.toLocaleDateString('pt-BR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
   })
 
   const nextExam = exams
@@ -26,28 +23,49 @@ export function Header({ exams, tasks, subjects, children }) {
         <h1>{greeting}!</h1>
         <p className="header-date">{dateStr}</p>
       </div>
-      <div className="header-stats">
-        {children}
-        <div className="stat-chip">
-          <span className="stat-icon">📚</span>
-          <span>{subjects.length} matéria{subjects.length !== 1 ? 's' : ''}</span>
-        </div>
-        <div className="stat-chip">
-          <span className="stat-icon">✅</span>
-          <span>{pendingTasks} tarefa{pendingTasks !== 1 ? 's' : ''} pendente{pendingTasks !== 1 ? 's' : ''}</span>
-        </div>
-        {nextExam && (
-          <div className={`stat-chip ${daysUntilExam <= 3 ? 'stat-urgent' : daysUntilExam <= 7 ? 'stat-warning' : ''}`}>
-            <span className="stat-icon">🎯</span>
-            <span>
-              {daysUntilExam === 0
-                ? `Prova hoje: ${nextExam.subject}`
-                : daysUntilExam === 1
-                ? `Prova amanhã: ${nextExam.subject}`
-                : `Próxima prova em ${daysUntilExam} dias`}
-            </span>
+
+      <div className="header-right">
+        <div className="header-stats">
+          <div className="stat-chip stat-subjects">
+            <span>📚</span>
+            <span>{subjects.length} matéria{subjects.length !== 1 ? 's' : ''}</span>
           </div>
-        )}
+          <div className="stat-chip stat-tasks">
+            <span>✅</span>
+            <span>{pendingTasks} pendente{pendingTasks !== 1 ? 's' : ''}</span>
+          </div>
+          {nextExam && (
+            <div className={`stat-chip ${daysUntilExam <= 3 ? 'stat-urgent' : daysUntilExam <= 7 ? 'stat-warning' : ''}`}>
+              <span>🎯</span>
+              <span>
+                {daysUntilExam === 0
+                  ? `Hoje: ${nextExam.subject}`
+                  : daysUntilExam === 1
+                  ? `Amanhã: ${nextExam.subject}`
+                  : `Prova em ${daysUntilExam}d`}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="header-actions">
+          <button className="theme-toggle" onClick={onToggleTheme} title={theme === 'dark' ? 'Modo claro' : 'Modo escuro'}>
+            {theme === 'dark' ? (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            )}
+          </button>
+          {children}
+        </div>
       </div>
     </header>
   )

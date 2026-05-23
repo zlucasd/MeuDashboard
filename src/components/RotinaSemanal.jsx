@@ -197,6 +197,7 @@ export function RotinaSemanal({ userId }) {
         </div>
       )}
 
+      <div className="week-grid-scroll">
       <div className="week-grid">
         {DAYS.map((day, i) => {
           const date = tab === 'alterada' ? weekDates[i] : null
@@ -223,6 +224,7 @@ export function RotinaSemanal({ userId }) {
             />
           )
         })}
+      </div>
       </div>
 
       {addingDay && (

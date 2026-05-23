@@ -24,8 +24,16 @@ const TABS = [
 ]
 
 export default function App() {
-  const [user, setUser] = useState(undefined) // undefined = loading, null = not signed in
+  const [user, setUser] = useState(undefined)
   const [tab, setTab] = useState('overview')
+  const [theme, setTheme] = useState(() => localStorage.getItem('dashboard-theme') || 'dark')
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('dashboard-theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
 
   useEffect(() => {
     if (!auth) { setUser(null); return }
@@ -41,7 +49,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <Header exams={exams} tasks={tasks} subjects={subjects}>
+      <Header exams={exams} tasks={tasks} subjects={subjects} theme={theme} onToggleTheme={toggleTheme}>
         <AuthButton user={user || null} />
       </Header>
 
@@ -62,9 +70,9 @@ export default function App() {
           <div className="overview-grid">
             <RotinaSemanal userId={userId} />
             <CronogramaSection exams={exams} />
-            <ExamsSection exams={exams} setExams={setExams} />
             <WeeklyTasks tasks={tasks} setTasks={setTasks} subjects={subjects} />
-            <SubjectsSection subjects={subjects} setSubjects={setSubjects} />
+            <div className="overview-desktop-only"><ExamsSection exams={exams} setExams={setExams} /></div>
+            <div className="overview-desktop-only"><SubjectsSection subjects={subjects} setSubjects={setSubjects} /></div>
           </div>
         )}
         {tab === 'rotina' && <RotinaSemanal userId={userId} />}
