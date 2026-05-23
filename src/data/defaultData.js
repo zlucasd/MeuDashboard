@@ -33,6 +33,15 @@ export const defaultTasks = [
   { id: 't8', text: 'Maker: Capacitação (14h-17h)', done: false, dueDate: '2026-06-05', priority: 'medium', subject: 'Maker', createdAt: new Date().toISOString() },
 ]
 
+// Eventos esporádicos (IDs estáveis para seeding)
+export const defaultSporadic = [
+  { id: 'seed-laser-0530', title: 'Reunião Laser Robocar', start: '18:00', end: '19:30', type: 'atividade', color: '#14b8a6', date: '2026-05-30' },
+  { id: 'seed-ic-0528',    title: 'IC — Plano de trabalho', start: '20:30', end: '22:00', type: 'atividade', color: '#f97316', date: '2026-05-28' },
+  { id: 'seed-dia-0527',   title: 'Dia completo — fora', start: '08:00', end: '22:00', type: 'pessoal',   color: '#ec4899', date: '2026-05-27' },
+  { id: 'seed-maker-0529', title: 'Maker Capacitação',    start: '14:00', end: '17:00', type: 'atividade', color: '#8b5cf6', date: '2026-05-29' },
+  { id: 'seed-maker-0605', title: 'Maker Capacitação',    start: '14:00', end: '17:00', type: 'atividade', color: '#8b5cf6', date: '2026-06-05' },
+]
+
 // Rotina semanal: day 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex
 export const defaultRotina = [
   // Segunda
