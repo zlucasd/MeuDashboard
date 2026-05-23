@@ -1,4 +1,4 @@
-export function Header({ exams, tasks, subjects }) {
+export function Header({ exams, tasks, subjects, children }) {
   const now = new Date()
   const hour = now.getHours()
   const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite'
@@ -27,6 +27,7 @@ export function Header({ exams, tasks, subjects }) {
         <p className="header-date">{dateStr}</p>
       </div>
       <div className="header-stats">
+        {children}
         <div className="stat-chip">
           <span className="stat-icon">📚</span>
           <span>{subjects.length} matéria{subjects.length !== 1 ? 's' : ''}</span>

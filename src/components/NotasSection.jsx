@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useCloudSync } from '../hooks/useCloudSync'
 
 const SUB_TABS = [
   { id: 'notes', label: 'Anotações' },
@@ -168,8 +168,8 @@ function ContentTab({ data, onChange }) {
 }
 
 /* ── Main ── */
-export function NotasSection({ subjects }) {
-  const [notasData, setNotasData] = useLocalStorage('dashboard-notas', {})
+export function NotasSection({ subjects, userId }) {
+  const [notasData, setNotasData] = useCloudSync(userId, 'notas', {})
   const [selectedId, setSelectedId] = useState(subjects[0]?.id ?? null)
   const [activeTab, setActiveTab] = useState('notes')
   const [saveStatus, setSaveStatus] = useState('saved') // 'saving' | 'saved'

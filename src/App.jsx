@@ -1,6 +1,9 @@
-import { useState } from 'react'
-import { useLocalStorage } from './hooks/useLocalStorage'
+import { useState, useEffect } from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from './firebase'
+import { useCloudSync } from './hooks/useCloudSync'
 import { Header } from './components/Header'
+import { AuthButton } from './components/AuthButton'
 import { ExamsSection } from './components/ExamsSection'
 import { WeeklyTasks } from './components/WeeklyTasks'
 import { SubjectsSection } from './components/SubjectsSection'
@@ -21,14 +24,26 @@ const TABS = [
 ]
 
 export default function App() {
-  const [exams, setExams] = useLocalStorage('dashboard-exams', defaultExams)
-  const [tasks, setTasks] = useLocalStorage('dashboard-tasks', defaultTasks)
-  const [subjects, setSubjects] = useLocalStorage('dashboard-subjects', defaultSubjects)
+  const [user, setUser] = useState(undefined) // undefined = loading, null = not signed in
   const [tab, setTab] = useState('overview')
+
+  useEffect(() => {
+    if (!auth) { setUser(null); return }
+    const unsub = onAuthStateChanged(auth, (u) => setUser(u ?? null))
+    return unsub
+  }, [])
+
+  const userId = user?.uid ?? null
+
+  const [exams, setExams] = useCloudSync(userId, 'exams', defaultExams)
+  const [tasks, setTasks] = useCloudSync(userId, 'tasks', defaultTasks)
+  const [subjects, setSubjects] = useCloudSync(userId, 'subjects', defaultSubjects)
 
   return (
     <div className="app">
-      <Header exams={exams} tasks={tasks} subjects={subjects} />
+      <Header exams={exams} tasks={tasks} subjects={subjects}>
+        <AuthButton user={user || null} />
+      </Header>
 
       <nav className="tab-nav">
         {TABS.map(t => (
@@ -45,19 +60,19 @@ export default function App() {
       <main className="main">
         {tab === 'overview' && (
           <div className="overview-grid">
-            <RotinaSemanal />
+            <RotinaSemanal userId={userId} />
             <CronogramaSection exams={exams} />
             <ExamsSection exams={exams} setExams={setExams} />
             <WeeklyTasks tasks={tasks} setTasks={setTasks} subjects={subjects} />
             <SubjectsSection subjects={subjects} setSubjects={setSubjects} />
           </div>
         )}
-        {tab === 'rotina' && <RotinaSemanal />}
+        {tab === 'rotina' && <RotinaSemanal userId={userId} />}
         {tab === 'cronograma' && <CronogramaSection exams={exams} />}
         {tab === 'exams' && <ExamsSection exams={exams} setExams={setExams} />}
         {tab === 'tasks' && <WeeklyTasks tasks={tasks} setTasks={setTasks} subjects={subjects} />}
         {tab === 'subjects' && <SubjectsSection subjects={subjects} setSubjects={setSubjects} />}
-        {tab === 'notas' && <NotasSection subjects={subjects} />}
+        {tab === 'notas' && <NotasSection subjects={subjects} userId={userId} />}
       </main>
 
       <BottomNav activeTab={tab} onTabChange={setTab} />

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useCloudSync } from '../hooks/useCloudSync'
 import { defaultRotina } from '../data/defaultData'
 
 const DAYS = [
@@ -135,9 +135,9 @@ function DayCard({ day, date, recurringEvents, sporadicEvents, isToday, onDelete
   )
 }
 
-export function RotinaSemanal() {
-  const [rotina, setRotina] = useLocalStorage('dashboard-rotina', defaultRotina)
-  const [sporadic, setSporadic] = useLocalStorage('dashboard-sporadic', [])
+export function RotinaSemanal({ userId }) {
+  const [rotina, setRotina] = useCloudSync(userId, 'rotina', defaultRotina)
+  const [sporadic, setSporadic] = useCloudSync(userId, 'sporadic', [])
   const [tab, setTab] = useState('fixa')
   const [weekOffset, setWeekOffset] = useState(0)
   const [addingDay, setAddingDay] = useState(null) // { dayId, dayDate, isSporadic }
