@@ -5,10 +5,12 @@ import { ExamsSection } from './components/ExamsSection'
 import { WeeklyTasks } from './components/WeeklyTasks'
 import { SubjectsSection } from './components/SubjectsSection'
 import { CronogramaSection } from './components/CronogramaSection'
+import { RotinaSemanal } from './components/RotinaSemanal'
 import { defaultExams, defaultTasks, defaultSubjects } from './data/defaultData'
 
 const TABS = [
   { id: 'overview', label: 'Visão Geral' },
+  { id: 'rotina', label: 'Rotina' },
   { id: 'cronograma', label: 'Cronograma' },
   { id: 'exams', label: 'Provas' },
   { id: 'tasks', label: 'Tarefas' },
@@ -40,12 +42,14 @@ export default function App() {
       <main className="main">
         {tab === 'overview' && (
           <div className="overview-grid">
+            <RotinaSemanal />
             <CronogramaSection exams={exams} />
             <ExamsSection exams={exams} setExams={setExams} />
             <WeeklyTasks tasks={tasks} setTasks={setTasks} subjects={subjects} />
             <SubjectsSection subjects={subjects} setSubjects={setSubjects} />
           </div>
         )}
+        {tab === 'rotina' && <RotinaSemanal />}
         {tab === 'cronograma' && <CronogramaSection exams={exams} />}
         {tab === 'exams' && <ExamsSection exams={exams} setExams={setExams} />}
         {tab === 'tasks' && <WeeklyTasks tasks={tasks} setTasks={setTasks} subjects={subjects} />}
