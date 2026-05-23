@@ -561,6 +561,9 @@ textarea.form-input { resize: vertical; }
 select.form-input { cursor: pointer; }
 
 /* ── Responsive ── */
+/* Grid items collapse to their column — prevents week-grid overflow from expanding page */
+.overview-grid > * { min-width: 0; }
+
 @media (min-width: 768px) {
   .overview-grid { grid-template-columns: 1fr 1fr; }
   .overview-grid > :first-child { grid-column: 1 / -1; }

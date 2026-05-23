@@ -45,29 +45,24 @@ export default function App() {
 
   const userId = user?.uid ?? null
 
-  const [exams, setExams]       = useCloudSync(userId, 'exams',    defaultExams)
-  const [tasks, setTasks]       = useCloudSync(userId, 'tasks',    defaultTasks)
-  const [subjects, setSubjects] = useCloudSync(userId, 'subjects', defaultSubjects)
-  const [rotina, setRotina]     = useCloudSync(userId, 'rotina',   defaultRotina)
-  const [sporadic, setSporadic] = useCloudSync(userId, 'sporadic', [])
+  const [exams, setExams]             = useCloudSync(userId, 'exams',    defaultExams)
+  const [tasks, setTasks]             = useCloudSync(userId, 'tasks',    defaultTasks)
+  const [subjects, setSubjects]       = useCloudSync(userId, 'subjects', defaultSubjects)
+  const [rotina, setRotina]           = useCloudSync(userId, 'rotina',   defaultRotina)
+  const [sporadic, setSporadic, sporadicReady] = useCloudSync(userId, 'sporadic', [])
 
-  // Seed default sporadic events (by stable ID, won't duplicate)
+  // Seed default sporadic events only AFTER Firestore confirms the data (sporadicReady),
+  // using stable IDs so duplicates are never added.
   const seededRef = useRef(false)
   useEffect(() => {
-    if (seededRef.current || !Array.isArray(sporadic)) return
-    const existingIds = new Set(sporadic.map(e => e.id))
-    const toAdd = defaultSporadic.filter(e => !existingIds.has(e.id))
-    if (toAdd.length > 0) {
-      seededRef.current = true
-      setSporadic(prev => {
-        const nowIds = new Set(prev.map(e => e.id))
-        const still = defaultSporadic.filter(e => !nowIds.has(e.id))
-        return still.length > 0 ? [...prev, ...still] : prev
-      })
-    } else {
-      seededRef.current = true
-    }
-  }, [sporadic])
+    if (!sporadicReady || seededRef.current) return
+    seededRef.current = true
+    setSporadic(prev => {
+      const existingIds = new Set(prev.map(e => e.id))
+      const missing = defaultSporadic.filter(e => !existingIds.has(e.id))
+      return missing.length > 0 ? [...prev, ...missing] : prev
+    })
+  }, [sporadicReady])
 
   return (
     <div className="app">

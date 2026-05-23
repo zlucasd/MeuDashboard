@@ -3,7 +3,7 @@ import { doc, onSnapshot, setDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 
 // Syncs a value to Firestore when userId is present, otherwise uses localStorage only.
-// On first sign-in, migrates existing localStorage data to Firestore automatically.
+// Returns [value, update, ready] — ready becomes true after first Firestore snapshot (or immediately if offline-only).
 export function useCloudSync(userId, key, initialValue) {
   const lsKey = `dashboard-${key}`
 
@@ -14,13 +14,17 @@ export function useCloudSync(userId, key, initialValue) {
     } catch { return initialValue }
   })
 
-  const unsubRef = useRef(null)
+  // ready = true once we have confirmed data (from Firestore or localStorage)
+  const [ready, setReady] = useState(!userId || !db)
+
+  const unsubRef  = useRef(null)
   const mountedRef = useRef(true)
 
   useEffect(() => {
     mountedRef.current = true
 
     if (!userId || !db) {
+      setReady(true)
       if (unsubRef.current) { unsubRef.current(); unsubRef.current = null }
       return
     }
@@ -34,10 +38,13 @@ export function useCloudSync(userId, key, initialValue) {
         setValue(remote)
         try { window.localStorage.setItem(lsKey, JSON.stringify(remote)) } catch {}
       } else {
-        // First time this user has this key — migrate from localStorage
-        const local = (() => { try { const i = window.localStorage.getItem(lsKey); return i ? JSON.parse(i) : null } catch { return null } })()
+        const local = (() => {
+          try { const i = window.localStorage.getItem(lsKey); return i ? JSON.parse(i) : null }
+          catch { return null }
+        })()
         setDoc(docRef, { value: local ?? initialValue })
       }
+      setReady(true)
     })
 
     return () => {
@@ -55,5 +62,5 @@ export function useCloudSync(userId, key, initialValue) {
     }
   }
 
-  return [value, update]
+  return [value, update, ready]
 }

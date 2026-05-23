@@ -1,11 +1,5 @@
 export function Header({ exams, tasks, subjects, theme, onToggleTheme, children }) {
   const now = new Date()
-  const hour = now.getHours()
-  const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite'
-
-  const dateStr = now.toLocaleDateString('pt-BR', {
-    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
-  })
 
   const nextExam = exams
     .filter(e => new Date(e.date + 'T00:00:00') >= new Date(now.toDateString()))
@@ -20,8 +14,8 @@ export function Header({ exams, tasks, subjects, theme, onToggleTheme, children 
   return (
     <header className="header">
       <div className="header-left">
-        <h1>{greeting}!</h1>
-        <p className="header-date">{dateStr}</p>
+        <h1>Cronograma</h1>
+        <p className="header-date">Lucas David</p>
       </div>
 
       <div className="header-right">
