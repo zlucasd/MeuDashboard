@@ -5,6 +5,7 @@ import { ExamsSection } from './components/ExamsSection'
 import { WeeklyTasks } from './components/WeeklyTasks'
 import { SubjectsSection } from './components/SubjectsSection'
 import { CronogramaSection } from './components/CronogramaSection'
+import { defaultExams, defaultTasks, defaultSubjects } from './data/defaultData'
 
 const TABS = [
   { id: 'overview', label: 'Visão Geral' },
@@ -15,9 +16,9 @@ const TABS = [
 ]
 
 export default function App() {
-  const [exams, setExams] = useLocalStorage('dashboard-exams', [])
-  const [tasks, setTasks] = useLocalStorage('dashboard-tasks', [])
-  const [subjects, setSubjects] = useLocalStorage('dashboard-subjects', [])
+  const [exams, setExams] = useLocalStorage('dashboard-exams', defaultExams)
+  const [tasks, setTasks] = useLocalStorage('dashboard-tasks', defaultTasks)
+  const [subjects, setSubjects] = useLocalStorage('dashboard-subjects', defaultSubjects)
   const [tab, setTab] = useState('overview')
 
   return (

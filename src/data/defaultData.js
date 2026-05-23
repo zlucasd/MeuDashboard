@@ -1,0 +1,120 @@
+export const defaultSubjects = [
+  {
+    id: 's1',
+    name: 'Algoritmos',
+    priority: 'high',
+    color: '#6366f1',
+    topics: 'Revisão para Prova 2\nConteúdo para Prova Final',
+    notes: '',
+  },
+  {
+    id: 's2',
+    name: 'Matemática Discreta',
+    priority: 'high',
+    color: '#ec4899',
+    topics: 'Conteúdo para 3ª Avaliação\nPreparação para Prova Final',
+    notes: 'Prova final sem data marcada ainda.',
+  },
+  {
+    id: 's3',
+    name: 'Cálculo 3',
+    priority: 'high',
+    color: '#f59e0b',
+    topics: 'Revisão para 3ª Prova\nSegunda chamada se necessário',
+    notes: '',
+  },
+  {
+    id: 's4',
+    name: 'OAC',
+    priority: 'medium',
+    color: '#3b82f6',
+    topics: 'Preparação para 2º Exame\nConteúdo para Prova Final',
+    notes: 'Organização e Arquitetura de Computadores',
+  },
+  {
+    id: 's5',
+    name: 'Lab de OAC',
+    priority: 'medium',
+    color: '#10b981',
+    topics: 'Atividades semanais (toda terça até julho)',
+    notes: 'Entrega toda terça-feira até julho.',
+  },
+]
+
+export const defaultExams = [
+  {
+    id: 'e1',
+    subject: 'OAC',
+    date: '2026-06-09',
+    color: '#3b82f6',
+    topics: '2º Exame',
+  },
+  {
+    id: 'e2',
+    subject: 'Matemática Discreta',
+    date: '2026-06-11',
+    color: '#ec4899',
+    topics: '3ª Avaliação',
+  },
+  {
+    id: 'e3',
+    subject: 'Cálculo 3',
+    date: '2026-06-22',
+    color: '#f59e0b',
+    topics: '3ª Prova',
+  },
+  {
+    id: 'e4',
+    subject: 'Algoritmos',
+    date: '2026-06-30',
+    color: '#6366f1',
+    topics: 'Prova 2',
+  },
+  {
+    id: 'e5',
+    subject: 'Cálculo 3',
+    date: '2026-07-01',
+    color: '#f59e0b',
+    topics: 'Segunda Chamada',
+  },
+  {
+    id: 'e6',
+    subject: 'Algoritmos',
+    date: '2026-07-02',
+    color: '#6366f1',
+    topics: 'Prova (Quinta)',
+  },
+  {
+    id: 'e7',
+    subject: 'Cálculo 3',
+    date: '2026-07-06',
+    color: '#f59e0b',
+    topics: 'Prova Final',
+  },
+  {
+    id: 'e8',
+    subject: 'Algoritmos',
+    date: '2026-07-07',
+    color: '#6366f1',
+    topics: 'Prova Final',
+  },
+  {
+    id: 'e9',
+    subject: 'OAC',
+    date: '2026-07-07',
+    color: '#3b82f6',
+    topics: 'Prova Final',
+  },
+]
+
+export const defaultTasks = [
+  {
+    id: 't1',
+    text: 'Entregar atividade semanal — Lab de OAC',
+    done: false,
+    dueDate: '',
+    priority: 'high',
+    subject: 'Lab de OAC',
+    createdAt: new Date().toISOString(),
+  },
+]
