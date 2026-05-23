@@ -4,9 +4,11 @@ import { Header } from './components/Header'
 import { ExamsSection } from './components/ExamsSection'
 import { WeeklyTasks } from './components/WeeklyTasks'
 import { SubjectsSection } from './components/SubjectsSection'
+import { CronogramaSection } from './components/CronogramaSection'
 
 const TABS = [
   { id: 'overview', label: 'Visão Geral' },
+  { id: 'cronograma', label: 'Cronograma' },
   { id: 'exams', label: 'Provas' },
   { id: 'tasks', label: 'Tarefas' },
   { id: 'subjects', label: 'Matérias' },
@@ -37,11 +39,13 @@ export default function App() {
       <main className="main">
         {tab === 'overview' && (
           <div className="overview-grid">
+            <CronogramaSection exams={exams} />
             <ExamsSection exams={exams} setExams={setExams} />
             <WeeklyTasks tasks={tasks} setTasks={setTasks} subjects={subjects} />
             <SubjectsSection subjects={subjects} setSubjects={setSubjects} />
           </div>
         )}
+        {tab === 'cronograma' && <CronogramaSection exams={exams} />}
         {tab === 'exams' && <ExamsSection exams={exams} setExams={setExams} />}
         {tab === 'tasks' && <WeeklyTasks tasks={tasks} setTasks={setTasks} subjects={subjects} />}
         {tab === 'subjects' && <SubjectsSection subjects={subjects} setSubjects={setSubjects} />}
